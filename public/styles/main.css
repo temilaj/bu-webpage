@@ -120,18 +120,40 @@ main > .main-content {
 
 main > .sidebar {
   grid-column: 9/ span 2;
+  background-color: #e6e6e6;
+}
+.sidebar h2 {
   padding: 0.5em 0.2em;
-  background-color: #f8f8f8;
 }
 
-.sidebar h2 {
+.sidebar li {
+  margin-bottom: 1em;
 
 }
 
 .sidebar .side-nav {
   list-style-type:none;
   font-size: smaller;
-  padding-left: 0.1em;
+  padding: 0 0.25em;
+}
+
+.side-nav .nav-item {
+  color: #333;
+  /* text-decoration: none; */
+}
+
+.side-nav .nav-item > div {
+  padding: 0.5em 0.4em;
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+.side-nav .nav-item h5 {
+  margin: 0;
+}
+
+.side-nav .nav-item p {
+  padding: 0;
 }
 
 .text-container {
