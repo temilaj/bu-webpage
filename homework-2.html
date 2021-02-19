@@ -2,9 +2,9 @@
 
 <html>
   <head>
-  <title> CS585 Homework Template: HW2 Student Name Temi Lajumoke  </title>
+  <title> CS585 Homework 2: Hand gesture recognition using Template Matching - Temi Lajumoke  </title>
   <style>
-  <!--
+
   body{
   font-family: 'Trebuchet MS', Verdana;
   }
@@ -28,7 +28,24 @@
   hr{
   margin:20px 0px 20px 0px;
   }
-  -->
+  .template-container {
+    display: flex;
+    max-width: fit-content;
+    flex-wrap: wrap;
+  }
+  .template-item {
+    margin: 0 4px;
+  }
+  .template-item img {
+    max-width: 150px;
+  }
+  .trial-row td img {
+    max-width: 400px;
+  }
+  .trial-row {
+   border-bottom: 1px solid #e3e3e3;
+   margin-bottom: 90px;
+  }
   </style>
   </head>
   
@@ -38,11 +55,11 @@
   width="119" height="120"></a>
   </center>
   
-  <h1>Programming Assignment 2:  Template matching</h1>
+  <h1>Programming Assignment 2:  Hand gesture recognition using Template Matching</h1>
   <p> 
    CS 585 HW 2 <br>
    Temi Lajumoke <br>
-   In collaboration with Vidya Akavoor ,Rayyan Nasr <br>
+   <br>
       11/02/2021 
   </p>
   
@@ -50,22 +67,31 @@
   <hr>
   <h2> Problem Definition </h2>
   <p>
-    In this assignment Read and display video frames from a webcam
-    Learn about tracking by template matching
-    Learn about analyzing properties of objects in an image, e.g. object centroid, axis of least inertia, shape (circularity)
-    Create interesting and interactive graphical applications
+    In this project, I demonstrate how to detect and classify different common hand gestures. The program works by reading a video stream from a web cam, and analysing each frame of the web cam, 
+    detecting human skin tones, and classifying the hand gestures within the region of interest. This program recognizes up to 7 hand gestures: "Thumbs up", "Thumbs down", "Fist", "Peace sign", "Point left", "Point right" and "wave". 
   </p>
   
   <hr>
   <h2> Method and Implementation </h2>
-  <p>Give a concise description of the implemented method. For example, you might
-    describe the motivation of your idea, the algorithmic steps of your methods, or
-    the mathematical formulation of your method. 
-  </p>
-  
   <p>
-  Briefly outline the functions you created in your code to carry out the
-  algorithmic steps you described earlier.
+    I began this project by first creating a list of hand gestures I planned to detect. 
+    Then I created templates for those hand gestures.
+    
+    Using Open CV's video capture method, I began by using the read function to open the camera on the user's device, such as a webcam,  and read the video stream from the camera.
+    I made sure to account for possible errors that may occur if the users' device does not have a video camera.
+    For each frame in the video stream, I inverted the frame laterally to create a mirror-like effect, then created a designated section for capturing hand gestures (region of interest) in the frame. This significantly reduced the computation required to run the template matching algorithm. It also eradicated the drops in frame rates I previously experienced
+    Next, I detected the skin using HSV and created a mask from the skin color range. Then generate a threshold Image using the mask. 
+    This dramatically improved hand gesture recognition as opposed to just converting the frame to grayscale. Next, I detect the hand gesture using template matching with the normalized correlation coefficient; using my already initialized templates as the source of truth. 
+    When the algorithm classifies a hand gesture, I display the name of the hand gesture above the region of interest in real-time.
+  </p>
+  <p>
+  The core and helper functions I created are as follows
+  <ul>
+    <li><pre>extract_roi</pre>: helper function to extract the region of interest from each frame</li>
+    <li><pre>detect_skin</pre>: helper function to detect skin from the the region of interest</li>
+    <li><pre>generate_threshold</pre>: helper function to generate a threshold image from the region of interest</li>
+    <li><pre>detect_hand_gesture</pre>: helper function to detect the hand gesture</li>
+  </ul>
   </p>
   
   <hr>
@@ -74,21 +100,111 @@
   Describe your experiments, including the number of tests that you
   performed, and the relevant parameter values.  </p>
   <p>
-  Define your evaluation
-  metrics, e.g., detection rates, accuracy, running time. </p>
+  For my experiment, I ran the test 60 times. 10 times for each hand gesture, taking screenshots each time, and recording my findings</p>
   
+  <p> A confusion matrix is shown below</p>
+  
+  <table class="table"  border="1" width="600" height="300" cellspacing="0" cellpadding="10">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Fist</th>
+      <th>Wave</th>
+      <th>Thumbs Up</th>
+      <th>Thumbs Down</th>
+      <th>Point Left</th>
+      <th>Point Right</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Fist</td>
+      <td>6</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>Wave</td>
+      <td>0</td>
+      <td>9</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>Thumbs Up</td>
+      <td>0</td>
+      <td>1</td>
+      <td>8</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Thumbs Down</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>7</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Point Left</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>8</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>Point Right</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+  </table>
+  From my results, my experiment had an accuracy score of 80%.
+  The fist gesture recorded the lowest accuracy score of 60%. While the Point-right and wave gestures had an accuracy score of 100% and 90% respectively. 
   
   <hr>
   <h2> Results</h2>
-  <p>
-  List your experimental results.  Provide examples of input images and output
-  images. If relevant, you may provide images showing any intermediate steps. 
-  <br>
-   If your work involves videos, you can add links here, but also make
-   sure to follow the specific homework instructions on how to submit
-   videos.
-  
-  </p>
+  <p>Templates</p>
+  <div class="template-container">
+    <div class="template-item">
+      <img src="images/templates/wave.jpg" alt="">
+      <p>Wave</p>
+    </div>
+    <div class="template-item">
+      <img src="images/templates/fist.jpg" alt="">
+      <p>Fist</p>
+    </div>
+    <div class="template-item">
+      <img src="images/templates/thumbs-up.jpg" alt="">
+      <p>Thumbs Up</p>
+    </div>
+    <div class="template-item">
+      <img src="images/templates/thumbs-down.jpg" alt="">
+      <p>Thumbs Down</p>
+    </div>
+    <div class="template-item">
+      <img src="images/templates/point-left.jpg" alt="">
+      <p>Point Left</p>
+    </div>
+    <div class="template-item">
+      <img src="images/templates/point-right.jpg" alt="">
+      <p>Point Right</p>
+    </div>
+  </div>
   
   <p>
   <table>
@@ -96,49 +212,53 @@
   <tr>
   <td> Trial </td><td> Source Image </td> <td> Result Image</td> 
   </tr>
-  <tr>
+  <tr class="trial-row">
     <td> trial 1 </td> 
-    <td> <img src="trial1.jpg"> </td> 
-    <td> <img src="result1.jpg"> </td>
+    <td> <img  src="images/results/wave.png"> </td> 
+    <td> <img src="images/results/wave-skin-map.png"> </td>
   </tr> 
-  <tr>
-    <td> trial 2 </td> 
-    <td> <img src="trial2.jpg"> </td> 
-    <td> <img src="result2.jpg"> </td>
+  <tr class="trial-row">
+    <td > trial 2 </td> 
+    <td> <img src="images/results/thumbs-up.png"> </td> 
+    <td> <img src="images/results/thumbs-up-skin-map.png"> </td>
   </tr> 
-  <tr>
-    <td> trial 3 </td> 
-    <td> <img src="trial3.jpg"> </td> 
-    <td> <img src="result3.jpg"> </td>
+  <tr class="trial-row">
+    <td > trial 3 </td> 
+    <td> <img src="images/results/point-left.png"> </td> 
+    <td> <img src="images/results/point-left-thresh.png"> </td>
+  </tr> 
+  <tr class="trial-row">
+    <td > trial 4 </td> 
+    <td> <img src="images/results/point-right.png"> </td> 
+    <td> <img src="images/results/point-right-threshold.png"> </td>
   </tr> 
   </table>
   </p>
+
+  
   
   
   
   <hr>
   <h2> Discussion </h2>
   
-  <p> 
-  Discuss your method and results:
-  <ul>
-  <li>What are the strengths and weaknesses of your method? </li>
-  <li>Do your results show that your method is generally successful or
-       are there limitations? Describe what you expected to find in your
-       experiments, and how that differed or was confirmed by your
-       results. </li>
-  <li>Potential future work. How could your method be improved?   What
-  would you try (if you had more time) to overcome the
-  failures/limitations of your work?</li> 
-  </ul>
+  <p> Overall, hand gesture Recognition using template matching with normalized correlation co-efficient was well when in a controlled environment. 
+    Modularity was also at the core of my algorithm design. This means that it can vertically scale somewhat easily, to recognize other hand gestures or objects.
+    The downside of using template matching for perception, however, is that situations are not always ideal. Thus, although I've been able to achieve relatively high accuracy with this method.
+    The current implementation makes it difficult to maintain that amount of accuracy in most real-world usecases. As the objects intended to be detected could have slight deviations in shape, size, and angles, which may throw of my method. 
+  
+    There is a lot of improvements that can be made in the future. For one, I could consider other skin detection methods or color gamut that accurately detects a wide array of skin tones in different lighting and background conditions.
+    I would also optimize my algorithm to recognize a wider array of hand gestures, without a noticeable lag in performance. 
   </p>
   
   <hr>
   <h2> Conclusions </h2>
   
   <p>
-  Based on your discussion, what are your conclusions?  What is your
-  main message?
+    Humans often communicate with hand gestures. We've also adapted to easily and intuitively interpret the meaning of these hand gestures. 
+    Citizens from different countries in the world who may not understand other languages, certainly understand hand gestures such as a wave, a clap, or a cry for help.
+    For computers, attaining this height that has come as a result of millions of years of human evolution has only just begun. 
+    Template matching, though it has its limitations, demonstrates the first step in a rather long journey.
   </p>
   
   
@@ -146,19 +266,16 @@
   <h2> Credits and Bibliography </h2>
   <p>
   
-  Cite any papers or other references you consulted while developing
-  your solution.  Citations to papers should include the authors, the
-  year of publication, the title of the work, and the publication
-  information (e.g., book name and publisher; conference proceedings and
-  location; journal name, volume and pages; technical report and
-  institution).  
+  <ol>
+    
+    <li><a href="https://docs.opencv.org/2.4/doc/tutorials/imgproc/histograms/template_matching/template_matching.html">Template Matching - Open CV</a></li>
+    <li><a href="http://cmp.felk.cvut.cz/cmp/courses/dzo/resources/lecture_object-recognition.pdf">Object reconition - CTU prague</a></li>
+    <li><a href="https://medium.com/@dc.aihub/hand-gesture-recognition-9f2b89507c3a">Hand Gesture Recognition - AI Hub</a></li>
+    <li><a href="https://www.pyimagesearch.com/2015/01/26/multi-scale-template-matching-using-python-opencv/">Multi-scale Template Matching using Python and OpenCV</a></li>
+  </ol>
   
   <p>
-  Material on the web should include the url and date of access.
-  </p>
-  
-  <p>
-  Credit any joint work or discussions with your classmates. 
+    Credits to Vidya Akavoor for recommending the Hand Gesture Recognition medium article by AI hub. 
   </p>
   <hr>
   </div>
