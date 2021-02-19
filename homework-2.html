@@ -67,28 +67,31 @@
   <hr>
   <h2> Problem Definition </h2>
   <p>
-    In this project, I demonstrate how to detect and classify different common hand gestures. The program works by reading a video stream from a web cam, and analysing each frame of the web cam, 
-    detecting human skin tones, and classifying the hand gestures within the region of interest. This program recognizes up to 7 hand gestures: "Thumbs up", "Thumbs down", "Fist", "Peace sign", "Point left", "Point right" and "wave". 
+    In this project, I demonstrate the process of detecting and classify common hand gestures. The program works by reading a video stream from a web cam, analysing each frame of the steam, 
+    detecting human skin tones, and classifying the hand gestures within the region of interest. This program recognizes up to 7 hand gestures. Namely: "Thumbs up", "Thumbs down", "Fist", "Peace sign", "Point left", "Point right" and "wave". 
   </p>
   
   <hr>
   <h2> Method and Implementation </h2>
   <p>
-    I began this project by first creating a list of hand gestures I planned to detect. 
+    I began by first creating a list of hand gestures I planned to detect. 
     Then I created templates for those hand gestures.
     
-    Using Open CV's video capture method, I began by using the read function to open the camera on the user's device, such as a webcam,  and read the video stream from the camera.
-    I made sure to account for possible errors that may occur if the users' device does not have a video camera.
-    For each frame in the video stream, I inverted the frame laterally to create a mirror-like effect, then created a designated section for capturing hand gestures (region of interest) in the frame. This significantly reduced the computation required to run the template matching algorithm. It also eradicated the drops in frame rates I previously experienced
+    Using Open CV's video capture method, I used the read function to open the camera on the user's device, a webcam, for example,  and read the video stream from the camera.
+    I made sure to account for possible errors that may occur if the user's device does not have a video camera.
+    For each frame in the video stream, I inverted the frame laterally to create a mirror-like effect, then created a designated section for capturing hand gestures (region of interest) in the frame. This significantly reduced the computation required to run the template matching algorithm. It also eradicated the drops in frame rates I previously experienced.
     Next, I detected the skin using HSV and created a mask from the skin color range. Then generate a threshold Image using the mask. 
-    This dramatically improved hand gesture recognition as opposed to just converting the frame to grayscale. Next, I detect the hand gesture using template matching with the normalized correlation coefficient; using my already initialized templates as the source of truth. 
+    Using only a subsection of the frame for capturing hand gestures, as opposed to just converting the frame to grayscale dramatically improved gesture recognition. 
+  <p>
+  <p>
+    Next, using my already initialized templates as the source of truth, I used template matching with normalized correlation coefficient to classify the hand gesture; . 
     When the algorithm classifies a hand gesture, I display the name of the hand gesture above the region of interest in real-time.
   </p>
-  <p>
+  </p>
   The core and helper functions I created are as follows
   <ul>
     <li><pre>extract_roi</pre>: helper function to extract the region of interest from each frame</li>
-    <li><pre>detect_skin</pre>: helper function to detect skin from the the region of interest</li>
+    <li><pre>detect_skin</pre>: helper function to detect skin from the region of interest</li>
     <li><pre>generate_threshold</pre>: helper function to generate a threshold image from the region of interest</li>
     <li><pre>detect_hand_gesture</pre>: helper function to detect the hand gesture</li>
   </ul>
@@ -181,27 +184,27 @@
   <p>Templates</p>
   <div class="template-container">
     <div class="template-item">
-      <img src="images/templates/wave.jpg" alt="">
+      <img src="public/images/templates/wave.jpg" alt="">
       <p>Wave</p>
     </div>
     <div class="template-item">
-      <img src="images/templates/fist.jpg" alt="">
+      <img src="public/images/templates/fist.jpg" alt="">
       <p>Fist</p>
     </div>
     <div class="template-item">
-      <img src="images/templates/thumbs-up.jpg" alt="">
+      <img src="public/images/templates/thumbs-up.jpg" alt="">
       <p>Thumbs Up</p>
     </div>
     <div class="template-item">
-      <img src="images/templates/thumbs-down.jpg" alt="">
+      <img src="public/images/templates/thumbs-down.jpg" alt="">
       <p>Thumbs Down</p>
     </div>
     <div class="template-item">
-      <img src="images/templates/point-left.jpg" alt="">
+      <img src="public/images/templates/point-left.jpg" alt="">
       <p>Point Left</p>
     </div>
     <div class="template-item">
-      <img src="images/templates/point-right.jpg" alt="">
+      <img src="public/images/templates/point-right.jpg" alt="">
       <p>Point Right</p>
     </div>
   </div>
@@ -214,23 +217,23 @@
   </tr>
   <tr class="trial-row">
     <td> trial 1 </td> 
-    <td> <img  src="images/results/wave.png"> </td> 
-    <td> <img src="images/results/wave-skin-map.png"> </td>
+    <td> <img  src="public/images/results/wave.png"> </td> 
+    <td> <img src="public/images/results/wave-skin-map.png"> </td>
   </tr> 
   <tr class="trial-row">
     <td > trial 2 </td> 
-    <td> <img src="images/results/thumbs-up.png"> </td> 
-    <td> <img src="images/results/thumbs-up-skin-map.png"> </td>
+    <td> <img src="public/images/results/thumbs-up.png"> </td> 
+    <td> <img src="public/images/results/thumbs-up-skin-map.png"> </td>
   </tr> 
   <tr class="trial-row">
     <td > trial 3 </td> 
-    <td> <img src="images/results/point-left.png"> </td> 
-    <td> <img src="images/results/point-left-thresh.png"> </td>
+    <td> <img src="public/images/results/point-left.png"> </td> 
+    <td> <img src="public/images/results/point-left-thresh.png"> </td>
   </tr> 
   <tr class="trial-row">
     <td > trial 4 </td> 
-    <td> <img src="images/results/point-right.png"> </td> 
-    <td> <img src="images/results/point-right-threshold.png"> </td>
+    <td> <img src="public/images/results/point-right.png"> </td> 
+    <td> <img src="public/images/results/point-right-threshold.png"> </td>
   </tr> 
   </table>
   </p>
